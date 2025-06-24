@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>North Cafe</title>
+  <link rel="stylesheet" href="output.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
+    .add-to-cart:hover .add-to-cart-icon {
+      transform: scale(1.25);
+      filter: drop-shadow(0 2px 6px #b2020122);
+    }
+    .add-to-cart:hover .add-to-cart-text {
+      font-weight: 700 !important;
+      transform: scale(1.12);
+      letter-spacing: 0.5px;
+    }
+    .group:hover .add-to-cart-icon {
+      transform: scale(1.25);
+      filter: drop-shadow(0 2px 6px #b2020122);
+    }
+    .group:hover .add-to-cart-text {
+      font-weight: 700 !important;
+      transform: scale(1.12);
+      letter-spacing: 0.5px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="bg-white">
+<div id="toast" style="display:none;position:fixed;top:32px;left:50%;transform:translateX(-50%);z-index:9999;background:#B20201;color:white;padding:16px 32px;border-radius:8px;font-size:18px;font-weight:600;box-shadow:0 2px 12px #0002;transition:opacity 0.3s;opacity:0;white-space:nowrap;"></div>
+<div id="header-placeholder"></div>
+
+<section class="mx-[64px] py-[32px] max-md:mx-[16px] pt-[128px]">
+  <div class="flex gap-[64px] max-lg:flex-col ">
+    <div class="w-[500px] flex-shrink-0 max-md:w-full max-xl:w-[240px] max-lg:w-full">
+      <img id="meal-image" src="/images/foodDefault.png" alt="" class="w-full object-cover rounded-[12px]">
+    </div>
+
+    <div class="flex-1 min-w-0">
+      <div class="flex flex-col gap-[8px]">
+        <h2 id="meal-name" class="custom-font font-[700] text-[36px] leading-[44px] text-[#010101] max-sm:text-[32px]"></h2>
+        <p id="meal-price" class="custom-font font-[400] text-[22px] text-[#4E4E4E] leading-[32px] mb-[28px]">₦1000</p>
+      </div>
+
+      <form id="portionForm" class="flex flex-col gap-[28px] mt-[8px] w-full" onsubmit="return handleSubmit(event)">
+        <div class="flex flex-col gap-[4px] w-full">
+          <div id="portions-required-msg"></div>
+          <div class="flex justify-between items-center gap-[16px] w-full">
+            <label for="numberSelect" class="custom-font font-[400] text-[22px] text-[#4E4E4E] leading-[32px] max-sm:text-[20px] flex-shrink-0">No' of portions</label>
+            <div class="relative">
+              <select id="numberSelect" class="appearance-none bg-[#F3F3F3] px-[24px] py-[12px] font-[600] custom-font rounded-[900px] focus:outline-none text-[#010101] w-full">
+                <option value="0" selected>0</option>
+              </select>
+              <div class="pointer-events-none absolute top-1/2 right-[16px] transform -translate-y-1/2 flex items-center space-x-[4px]">
+                <span class="text-[#010101]">▼</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-[4px] w-full">
+          <div id="plates-required-msg"></div>
+          <div class="flex justify-between items-center w-full">
+            <label for="platesSelect" class="custom-font font-[400] text-[22px] text-[#4E4E4E] leading-[32px] max-sm:text-[20px] flex-shrink-0">No' of plates</label>
+            <div class="relative">
+              <select id="platesSelect" class="appearance-none bg-[#F3F3F3] px-[24px] py-[12px] font-[600] custom-font rounded-[900px] focus:outline-none text-[#010101] w-full">
+                <option value="0" selected>0</option>
+              </select>
+              <div class="pointer-events-none absolute top-1/2 right-[16px] transform -translate-y-1/2 flex items-center space-x-[4px]">
+                <span class="text-[#010101]">▼</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-[4px] w-full">
+          <div id="ppp-required-msg"></div>
+          <div class="flex justify-between items-center gap-[16px] w-full">
+            <label for="portionsPerPlateSelect" class="custom-font font-[400] text-[22px] text-[#4E4E4E] leading-[32px] max-sm:text-[20px] flex-shrink-0">Portions per plate</label>
+            <div class="relative">
+              <select id="portionsPerPlateSelect" class="appearance-none bg-[#F3F3F3] px-[24px] py-[12px] font-[600] custom-font rounded-[900px] focus:outline-none text-[#010101] w-full">
+                <option value="0" selected>0</option>
+              </select>
+              <div class="pointer-events-none absolute top-1/2 right-[16px] transform -translate-y-1/2 flex items-center space-x-[4px]">
+                <span class="text-[#010101]">▼</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-[12px] mt-[24px] w-full">
+          <label for="specialInstructions" class="custom-font font-[400] text-[22px] text-[#4E4E4E] leading-[32px] max-sm:text-[20px]">Special Instructions</label>
+          <textarea
+            id="specialInstructions"
+            placeholder="Add any special instructions for this order, or leave blank if there's nothing to add."
+            class="border-[1px] border-[#D1D1D1] rounded-[12px] h-[240px] py-[12px] px-[20px] text-left align-top focus:outline-none text-[#010101] w-full resize-none"
+          ></textarea>
+        </div>
+
+        <div class="flex justify-between items-center mt-[32px] w-full">
+          <label class="custom-font font-[600] text-[22px] text-[#4E4E4E] leading-[32px] max-sm:text-[20px]">Total:</label>
+          <p id="total-price" class="custom-font font-[900] text-[22px] text-[#010101] leading-[32px] max-sm:text-[20px]">₦0</p>
+        </div>
+
+        <button type="submit" class="px-[24px] py-[12px] custom-font text-[20px] text-white w-full bg-[#B20201] font-[700] mt-[32px]">Add to cart</button>
+      </form>
+      <div style="height:200px;"></div>
+    </div>
+  </div>
+</section>
+
+    <footer class="bg-[#F3F3F3]">
+        <div class="flex justify-between p-[64px] max-md:p-[32px] max-md:flex-col">
+            <nav>
+                <h2 class="custom-font font-[400] text-[#010101] text-[36px] leading-[44px] mb-[24px] max-md:text-[32px]">Think Big. Start at North Café.</h2>
+                <a href="" class="px-[24px] py-[12px] text-[16px] text-white bg-[#B20201] font-[700] w-fit">Send Resumé</a>
+            </nav>
+            <nav class="flex flex-col gap-[8px] max-md:mt-[28px]">
+                <h3 class="font-[600] text-[14px] leading-[22px] text-[#010101] custom-font uppercase ">COMPANY</h3>
+                <a href="index.html" class="font-[400] text-[14px] leading-[22px] text-[#4E4E4E] custom-font">Menu</a>
+                <a href="about.html" class="font-[400] text-[14px] leading-[22px] text-[#4E4E4E] custom-font">About</a>
+                <a href="about.html#careers" class="font-[400] text-[14px] leading-[22px] text-[#4E4E4E] custom-font">Careers</a>
+            </nav>
+            <nav class="flex flex-col gap-[8px] max-md:mt-[28px]">
+                <h3 class="font-[600] text-[14px] leading-[22px] text-[#010101] custom-font uppercase">SOCIALS</h3>
+                <a href="" class="font-[400] text-[14px] leading-[22px] text-[#4E4E4E] custom-font">LinkedIn</a>
+                <a href="" class="font-[400] text-[14px] leading-[22px] text-[#4E4E4E] custom-font">Youtube</a>
+                <a href="" class="font-[400] text-[14px] leading-[22px] text-[#4E4E4E] custom-font">Instagram</a>
+            </nav>
+        </div>
+        <div class="">
+            <p class="font-[400] text-[14px] leading-[22px] text-[#010101] custom-font p-[32px] text-center">© 2025 North Café. All rights reserved.</p>
+        </div>
+    </footer>
+
+<script src="cart.js"></script>
+<script src="header.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  fetch('header.html')
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('header-placeholder').innerHTML = html;
+      if (typeof checkLoginState === 'function') checkLoginState();
+      // Re-attach cart icon event listeners after header is loaded
+      const cartLinkDesktop = document.getElementById('cart-link-desktop');
+      if (cartLinkDesktop) {
+        cartLinkDesktop.addEventListener('click', function(e) { handleCartClick(e, true); });
+      }
+      const cartLinkMobile = document.getElementById('cart-link-mobile');
+      if (cartLinkMobile) {
+        cartLinkMobile.addEventListener('click', function(e) { handleCartClick(e, false); });
+      }
+      // Re-attach dropdown event listeners for Manage Account
+      function reattachDropdownListeners() {
+        document.querySelectorAll('[onclick="toggleDropdown(event)"]').forEach(el => {
+          el.onclick = function(e) {
+            e.stopPropagation();
+            const dropdown = document.getElementById('desktopDropdown');
+            dropdown.classList.toggle('hidden');
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function closeHandler(event) {
+              if (dropdown && !dropdown.contains(event.target) && !event.target.closest('[onclick*="toggleDropdown"]')) {
+                dropdown.classList.add('hidden');
+                document.removeEventListener('click', closeHandler);
+              }
+            });
+          };
+        });
+      }
+      reattachDropdownListeners();
+    });
+});
+
+document.addEventListener('DOMContentLoaded', async () => {
+  // ... existing code ...
+  // Hide only the search icon in header for add.html (do not hide parent)
+  function hideSearchIcons() {
+    document.querySelectorAll('header .fa-search').forEach(icon => {
+      icon.style.display = 'none';
+    });
+  }
+  setTimeout(hideSearchIcons, 100);
+  setTimeout(hideSearchIcons, 500);
+  setTimeout(hideSearchIcons, 1000);
+  // ... existing code ...
+});
+
+  function toggleMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const isHidden = menu.classList.contains('hidden');
+    menu.classList.toggle('hidden');
+    document.body.style.overflow = isHidden ? 'hidden' : '';
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    const portions = document.getElementById('numberSelect').value;
+    const plates = document.getElementById('platesSelect').value;
+    const portionsPerPlate = document.getElementById('portionsPerPlateSelect').value;
+    const specialInstructions = document.getElementById('specialInstructions').value;
+    const mealData = localStorage.getItem('selectedMeal');
+    const meal = mealData ? JSON.parse(mealData) : null;
+
+    const portionsMsg = document.getElementById('portions-required-msg');
+    const platesMsg = document.getElementById('plates-required-msg');
+    const pppMsg = document.getElementById('ppp-required-msg');
+
+    // Reset messages
+    portionsMsg.textContent = '';
+    platesMsg.textContent = '';
+    pppMsg.textContent = '';
+    portionsMsg.className = platesMsg.className = pppMsg.className = '';
+
+    let isValid = true;
+    const errorClass = 'text-red-500 text-[14px] mb-[8px] font-[500] custom-font';
+    let firstErrorElem = null;
+
+    if (portions === "0") {
+      portionsMsg.textContent = 'Please select number of portions';
+      portionsMsg.className = errorClass;
+      isValid = false;
+      if (!firstErrorElem) firstErrorElem = portionsMsg;
+    }
+
+    if (plates === "0") {
+      platesMsg.textContent = 'Please select number of plates';
+      platesMsg.className = errorClass;
+      isValid = false;
+      if (!firstErrorElem) firstErrorElem = platesMsg;
+    }
+
+    if (portionsPerPlate === "0") {
+      pppMsg.textContent = 'Please select portions per plate';
+      pppMsg.className = errorClass;
+      isValid = false;
+      if (!firstErrorElem) firstErrorElem = pppMsg;
+    }
+
+    if (!isValid) {
+      // Scroll to the first error message
+      if (firstErrorElem) {
+        firstErrorElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      return false;
+    }
+
+    // Build cart item
+    const cartItem = {
+      meal,
+      portions: Number(portions),
+      plates: Number(plates),
+      portionsPerPlate: Number(portionsPerPlate),
+      specialInstructions,
+      addedAt: Date.now()
+    };
+
+    // Use shared cart.js logic
+    addToCart(cartItem);
+
+    // Show toast message
+    const toast = document.getElementById('toast');
+    toast.textContent = 'Item added to cart!';
+    toast.style.display = 'block';
+    toast.style.opacity = '1';
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      setTimeout(() => {
+        toast.style.display = 'none';
+        location.reload();
+      }, 300);
+    }, 2000);
+    return false;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const numberSelect = document.getElementById('numberSelect');
+    const platesSelect = document.getElementById('platesSelect');
+    const portionsPerPlateSelect = document.getElementById('portionsPerPlateSelect');
+
+    // Clear existing options
+    numberSelect.innerHTML = '<option value="0" selected>0</option>';
+    platesSelect.innerHTML = '<option value="0" selected>0</option>';
+    portionsPerPlateSelect.innerHTML = '<option value="0" selected>0</option>';
+
+    // Add numeric options
+    for (let i = 1; i <= 1000; i++) {
+      numberSelect.add(new Option(i, i));
+      platesSelect.add(new Option(i, i));
+      portionsPerPlateSelect.add(new Option(i, i));
+    }
+
+    // Set food image, name, and price from localStorage
+    const mealData = localStorage.getItem('selectedMeal');
+    if (mealData) {
+      const meal = JSON.parse(mealData);
+      console.log('Meal data received:', meal); // Debug log
+      
+      const imageElement = document.getElementById('meal-image');
+      let imageUrl = meal.image || meal.image_url || 'images/menu/foodHovered.png';
+      
+      console.log('Setting image URL:', imageUrl); // Debug log
+      
+      // Set the image with improved error handling
+      imageElement.onerror = function() {
+        console.error('Failed to load image:', imageUrl);
+        if (this.src !== 'images/menu/foodHovered.png') {
+          this.onerror = null; // Prevent infinite loop
+          this.src = 'images/menu/foodHovered.png';
+        }
+      };
+      imageElement.onload = function() {
+        console.log('Image loaded successfully:', imageUrl);
+      };
+      
+      imageElement.src = imageUrl;
+      
+      document.getElementById('meal-name').textContent = meal.name;
+      document.getElementById('meal-price').textContent = `₦${meal.price ? Number(meal.price).toLocaleString() : '0'}`;
+    } else {
+      console.log('No meal data found in localStorage');
+    }
+
+    // On page load, check for ?meal=... in the URL and load the correct meal
+    const mealParam = getQueryParam('meal');
+    if (mealParam) {
+      // Try to find the meal in pairings data
+      let found = false;
+      for (const pairList of Object.values(mealPairings)) {
+        const match = pairList.find(p => p.name === mealParam);
+        if (match) {
+          match.price = 1000;
+          localStorage.setItem('selectedMeal', JSON.stringify(match));
+          found = true;
+          break;
+        }
+      }
+      // If not found in pairings, fallback to localStorage (already set by selectPairing)
+    }
+  });
+
+function getQueryParam(param) {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
+}
+
+function handleCartClick(event, isDesktop) {
+  event.preventDefault();
+  window.location.href = 'cart.html';
+}
+
+function openLogoutModal() {
+  const modal = document.getElementById('logoutModal');
+  modal.classList.remove('opacity-0', 'pointer-events-none');
+  modal.classList.add('opacity-100');
+}
+
+function closeLogoutModal() {
+  const modal = document.getElementById('logoutModal');
+  modal.classList.add('opacity-0', 'pointer-events-none');
+  modal.classList.remove('opacity-100');
+}
+
+function confirmLogout() {
+  closeLogoutModal();
+  handleLogout();
+}
+
+function updateTotal() {
+  const portions = Number(document.getElementById('numberSelect').value);
+  const plates = Number(document.getElementById('platesSelect').value);
+  // Portions per plate is for context only, not price
+  // Get the price under the meal name (strip ₦ and commas)
+  const priceText = document.getElementById('meal-price').textContent.replace(/[^\d]/g, '');
+  const price = Number(priceText) || 0;
+  let total = 0;
+  if (portions > 0 || plates > 0) {
+    total = (portions * price) + (plates * 150);
+  }
+  document.getElementById('total-price').textContent = `₦${total.toLocaleString()}`;
+}
+
+['numberSelect', 'platesSelect', 'portionsPerPlateSelect'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('change', updateTotal);
+  el.addEventListener('input', updateTotal);
+});
+
+updateTotal();
+</script>
+</body>
+</html> 

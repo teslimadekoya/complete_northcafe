@@ -1,0 +1,332 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>North Cafe</title>
+  <link rel="stylesheet" href="output.css" />
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
+  </style>
+
+  <style>
+    @media (max-width: 320px) {
+      .delivery-wrapper {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+      }
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<header class="fixed top-0 left-0 right-0 z-50 bg-white px-[64px] py-[32px] flex justify-between items-center max-md:px-[16px]">
+  <nav>
+    <a href="index.html" class="text-[#B20201] font-[700] text-[36px] leading-[44px] dancing-script max-lg:text-[24px]">North Café</a>
+  </nav>
+  <nav class="flex gap-[24px] items-center text-[16px] custom-font leading-[32px] max-lg:gap-[16px] max-md:hidden">
+    <a href="index.html" class="text-[#4E4E4E] custom-font hover:text-[#010101] hover:font-[700]">Menu</a>
+    <a href="about.html" class="text-[#4E4E4E] custom-font hover:text-[#010101] hover:font-[700]">About</a>
+    <a href="about.html#careers" class="text-[#4E4E4E] custom-font hover:text-[#010101] hover:font-[700]">Careers</a>
+  </nav>
+  <nav class="flex gap-[24px] items-center custom-font leading-[26px]">
+    <div class="md:hidden flex gap-[12px] items-center">
+      <button onclick="toggleMenu()">
+        <img src="/images/hamburger.svg" alt="" class="cursor-pointer" />
+      </button>
+    </div>
+    <a href="login.html" class="text-[#B20201] text-[20px] font-[700] max-md:hidden custom-font">Log In</a>
+    <a href="signup.html" class="px-[24px] py-[12px] custom-font text-[20px] text-white bg-[#B20201] font-[700] max-md:hidden">Sign Up</a>
+  </nav>
+</header>
+
+
+<!-- Hamburger Menu Overlay -->
+<div id="mobile-menu" class="fixed inset-0 z-50 bg-white hidden">
+  <div class="flex flex-col h-full p-[32px]">
+    <div class="flex justify-end">
+      <button onclick="toggleMenu()" class="cursor-pointer">
+        <img src="/images/close.svg" alt="Close" class="h-[32px]" />
+      </button>
+    </div>
+    <div class="flex flex-col items-center justify-center flex-1 gap-[24px]">
+      <a href="index.html" class="text-[#4E4E4E] text-[20px] font-[500] custom-font hover:font-[700] hover:text-[#010101]">Menu</a>
+      <a href="about.html" class="text-[#4E4E4E] text-[20px] font-[500] custom-font hover:font-[700] hover:text-[#010101]">About</a>
+      <a href="about.html#careers" class="text-[#4E4E4E] text-[20px] font-[500] custom-font hover:font-[700] hover:text-[#010101]">Careers</a>
+      <a href="login.html" class="text-[#B20201] text-[20px] font-[700] custom-font mt-[32px]">Log In</a>
+      <a href="signup.html" class="px-[24px] py-[12px] custom-font text-[20px] text-white bg-[#B20201] font-[700] w-fit">Sign Up</a>
+    </div>
+  </div>
+</div>
+
+
+<section class="mt-[60px] max-md:mt-[64px] mx-[64px] pt-[32px] pb-[32px] max-md:mx-[16px]">
+    <h1 class="text-[#010101] text-[48px] mt-[48px] mb-[24px] text-center font-custom-font max-lg:mt-[40px] max-md:mt-[32px] max-sm:text-[40px]">
+    Cart
+    </h1>
+
+    <h2 class="custom-font font-[700] text-[28px] leading-[36px] text-[#010101] mb-[24px]">Order Summary</h2>
+
+  <div class="flex gap-[64px] max-lg:flex-col ">
+    <div class="w-[500px] flex-shrink-0 max-md:w-full max-xl:w-[240px] max-lg:w-full">
+      <img src="/images/foodDefault.png" alt="" class="w-full object-cover rounded-[12px]">
+    </div>
+
+    <div class="flex-1 min-w-0">
+      <div class="flex flex-col gap-[8px]">
+        <h2 class="custom-font font-[600] text-[28px] leading-[36px] text-[#010101] max-sm:text-[32px]">Native Rice</h2>
+        <p class="custom-font font-[400] text-[22px] text-[#4E4E4E] leading-[32px] mb-[28px]">₦4,000</p>
+      </div>
+
+      <form id="portionForm" class="flex flex-col gap-[28px] mt-[8px] w-full" onsubmit="return handleSubmit(event)">
+
+        <!-- Replace the previous three select dropdowns with this -->
+            <!-- No’ of portions -->
+            <div class="flex flex-col gap-[4px] w-full">
+            <div class="flex justify-between items-center w-full">
+                <label class="custom-font font-[400] text-[22px] text-[#4E4E4E] leading-[32px] max-sm:text-[20px]">No’ of portions:</label>
+                <div class="flex items-center gap-[16px]">
+                <button type="button" onclick="adjustValue('portions', -1)" class="text-[#D1D1D1] text-[28px] leading-none">−</button>
+                <span id="portions" class="font-[700] custom-font text-[22px] leading-[32px] text-[#010101] w-[40px] text-center">0</span>
+                <button type="button" onclick="adjustValue('portions', 1)" class="text-[#D1D1D1] text-[28px] leading-none">+</button>
+                </div>
+            </div>
+            </div>
+
+            <!-- No’ of plates -->
+            <div class="flex flex-col gap-[4px] w-full">
+            <div class="flex justify-between items-center w-full">
+                <label class="custom-font font-[400] text-[22px] text-[#4E4E4E] leading-[32px] max-sm:text-[20px]">No’ of plates:</label>
+                <div class="flex items-center gap-[16px]">
+                <button type="button" onclick="adjustValue('plates', -1)" class="text-[#D1D1D1] text-[28px] leading-none">−</button>
+                <span id="plates" class="font-[700] custom-font text-[22px] leading-[32px] text-[#010101] w-[40px] text-center">0</span>
+                <button type="button" onclick="adjustValue('plates', 1)" class="text-[#D1D1D1] text-[28px] leading-none">+</button>
+                </div>
+            </div>
+            </div>
+
+            <!-- Portions per plate -->
+            <div class="flex flex-col gap-[4px] w-full">
+            <div class="flex justify-between items-center w-full">
+                <label class="custom-font font-[400] text-[22px] text-[#4E4E4E] leading-[32px] max-sm:text-[20px]">Portions per plate:</label>
+                <div class="flex items-center gap-[16px]">
+                <button type="button" onclick="adjustValue('ppp', -1)" class="text-[#D1D1D1] text-[28px] leading-none">−</button>
+                <span id="ppp" class="font-[700] custom-font text-[22px] leading-[32px] text-[#010101] w-[40px] text-center">0</span>
+                <button type="button" onclick="adjustValue('ppp', 1)" class="text-[#D1D1D1] text-[28px] leading-none">+</button>
+                </div>
+            </div>
+            </div>
+
+
+
+
+
+
+
+
+
+        <div class="flex flex-col gap-[12px] mt-[24px] w-full">
+          <label class="custom-font font-[400] text-[22px] text-[#4E4E4E] leading-[32px] max-sm:text-[20px]">Special Instructions:</label>
+          <textarea
+            placeholder="Add any special instructions for this order, or leave blank if there's nothing to add."
+            class="border-[1px] border-[#D1D1D1] rounded-[12px] h-[240px] py-[12px] px-[20px] text-left align-top focus:outline-none text-[#010101] w-full resize-none"
+          ></textarea>
+        </div>
+        <div class="flex flex-col gap-[4px] w-full">
+        <div id="ppp-required-msg"></div>
+        <div class="flex justify-between items-center w-full gap-[16px] delivery-wrapper">
+        <label for="portionsPerPlateSelect" class="custom-font font-[400] text-[22px] text-[#4E4E4E] leading-[32px] max-sm:text-[20px] whitespace-nowrap">
+            Delivery Type:
+        </label>
+        <div class="relative w-full max-w-[300px]">
+            <select id="portionsPerPlateSelect"
+            class="appearance-none bg-[#F3F3F3] pr-[40px] pl-[24px] py-[12px] font-[600] custom-font rounded-[900px] focus:outline-none text-[#010101] w-full text-center">
+            <option value="express">Express Delivery (₦300.00)</option>
+            <option value="normal">Normal Delivery (₦200.00)</option>
+            </select>
+            <div class="pointer-events-none absolute top-1/2 right-[16px] transform -translate-y-1/2">
+            <span class="text-[#010101]">▼</span>
+            </div>
+        </div>
+        </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<section class="mx-[64px] max-md:mx-[16px]">
+<!-- Order Total Summary -->
+<div class="mt-[48px]">
+  <h2 class="custom-font font-[700] text-[28px] leading-[36px] text-[#010101] mb-[24px]">Order Total:</h2>
+
+  <div class="flex flex-col gap-[24px] text-[22px] leading-[32px] custom-font text-[#4E4E4E] mb-[44px]">
+    <div class="flex justify-between">
+      <span>Item Total:</span>
+      <span>₦40,000</span>
+    </div>
+    <div class="flex justify-between">
+      <span>Delivery Fee:</span>
+      <span>₦300</span>
+    </div>
+    <div class="flex justify-between">
+      <span>Service Charge:</span>
+      <span>₦300</span>
+    </div>
+    <div class="flex justify-between font-[700] text-[#010101]">
+      <span>Total:</span>
+      <span>₦46,000</span>
+    </div>
+  </div>
+</div>
+
+<!-- Delivery Location & Gift -->
+<secti class="mt-[48px]">
+  <h2 class="custom-font font-[700] text-[28px] leading-[36px] text-[#010101] mb-[24px]">Delivery Location & Gift:</h2>
+
+  <body class="flex flex-col gap-[24px] mb-[44px]">
+    
+<!-- Delivery Location & dropdown on the same line -->
+<div class="flex justify-between items-center w-full gap-[16px] delivery-wrapper">
+  <label for="portionsPerPlateSelect" class="custom-font font-[400] text-[22px] text-[#4E4E4E] leading-[32px] max-sm:text-[20px] whitespace-nowrap">
+      Delivery Location:
+  </label>
+  <div class="relative w-full max-w-[300px]">
+      <select id="portionsPerPlateSelect"
+      class="appearance-none bg-[#F3F3F3] pr-[40px] pl-[24px] py-[12px] font-[600] custom-font rounded-[900px] focus:outline-none text-[#010101] w-full text-center">
+      <option>EDC Hostel</option>
+      <option>Amethyst </option>
+      <option>SST </option>
+      <option>SMC </option>
+      <option>Coperative</option>
+      <option>Faith</option>
+      <option>Pod Living</option>
+      </select>
+      <div class="pointer-events-none absolute top-1/2 right-[16px] transform -translate-y-1/2">
+      <span class="text-[#010101]">▼</span>
+      </div>
+  </div>
+</div>
+
+
+<!-- Gift Option -->
+<div class="flex justify-between items-center w-full">
+  <div class="flex items-center gap-[12px]">
+    <i class="fas fa-gift text-[#B20201]" style="font-size: 28px; line-height: 1;"></i>
+    <span class="custom-font text-[22px] font-semibold leading-[32px] text-[#010101]">Send as a gift</span>
+  </div>
+  
+  <!-- Hidden Checkbox and Label for toggle -->
+  <label for="gift-checkbox" class="cursor-pointer">
+    <input type="checkbox" id="gift-checkbox" class="hidden" />
+    <i id="checkbox-icon" class="fas fa-check-square" style="font-size: 28px; line-height: 1; color: #D1D1D1;"></i>
+  </label>
+</div>
+
+
+
+<!-- Contact Info -->
+<div class="gap-[24px] mt-[24px] mb-[32px]">
+  <h3 class="custom-font font-[700] text-[28px] leading-[36px] text-[#010101] mb-[24px]">Contact Info:</h3>
+  
+  <div class="flex flex-col gap-6">
+    <div class="flex justify-between items-center">
+      <label class="custom-font font-[400] text-[22px] text-[#4E4E4E] leading-[32px] max-sm:text-[20px] whitespace-nowrap">Your WhatsApp Number:</label>
+      <input type="text" 
+             class="border border-gray-300 rounded-lg p-3 text-center focus:outline-none focus:ring-2 focus:ring-[#B20201] 
+                    text-[#010101] font-[600] text-[22px] leading-[32px] custom-font
+                    placeholder:text-gray-400 placeholder:font-normal placeholder:text-base placeholder:leading-normal"
+             style="width: 20ch;"
+             placeholder="WhatsApp Number"
+            >
+    </div>
+
+    <div class="flex justify-between items-center">
+      <label class="custom-font font-[400] text-[22px] text-[#4E4E4E] leading-[32px] max-sm:text-[20px] whitespace-nowrap">Recepient’s Fullname:</label>
+      <input type="text" 
+             class="border border-gray-300 rounded-lg p-3 text-center focus:outline-none focus:ring-2 focus:ring-[#B20201]
+                    text-[#010101] font-[600] text-[22px] leading-[32px] custom-font
+                    placeholder:text-gray-400 placeholder:font-normal placeholder:text-base placeholder:leading-normal"
+             style="width: 50ch;"
+             placeholder="Recepient’s Fullname"
+            >
+    </div>
+
+    <div class="flex justify-between items-center">
+      <label class="custom-font font-[400] text-[22px] text-[#4E4E4E] leading-[32px] max-sm:text-[20px] whitespace-nowrap">Recepient’s Matric No:</label>
+      <input type="text" 
+             class="border border-gray-300 rounded-lg p-3 text-center focus:outline-none focus:ring-2 focus:ring-[#B20201]
+                    text-[#010101] font-[600] text-[22px] leading-[32px] custom-font
+                    placeholder:text-gray-400 placeholder:font-normal placeholder:text-base placeholder:leading-normal"
+             style="width: 20ch;"
+             placeholder="Matric No'"
+            >
+    </div>
+  </div>
+</div>
+
+
+
+
+
+</section>
+</body>
+
+<script>
+      function toggleMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const isHidden = menu.classList.contains('hidden');
+    menu.classList.toggle('hidden');
+    document.body.style.overflow = isHidden ? 'hidden' : '';
+  }
+
+  function adjustValue(id, change) {
+    const el = document.getElementById(id);
+    let current = parseInt(el.innerText);
+    let updated = current + change;
+    if (updated < 0) updated = 0;
+    el.innerText = updated;
+  }
+    // Update delivery text for mobile
+  function updateDeliveryText() {
+    const select = document.getElementById("portionsPerPlateSelect");
+    const isMobile = window.innerWidth <= 768;
+
+    select.options[0].text = isMobile ? "Express (₦300)" : "Express Delivery (₦300.00)";
+    select.options[1].text = isMobile ? "Normal (₦200)" : "Normal Delivery (₦200.00)";
+  }
+
+  // Run on page load and resize
+  window.addEventListener("DOMContentLoaded", updateDeliveryText);
+  window.addEventListener("resize", updateDeliveryText);
+  
+
+//   Toggle the checkbox icon color based on whether the checkbox is checked or not
+
+    const checkbox = document.getElementById('gift-checkbox');
+  const icon = document.getElementById('checkbox-icon');
+
+  checkbox.addEventListener('change', () => {
+    if (checkbox.checked) {
+      icon.style.color = '#B20201'; // active color
+    } else {
+      icon.style.color = '#D1D1D1'; // inactive color
+    }
+  });
+  // Get the form element by its ID
+const form = document.getElementById('contact-form');
+
+// Listen for the form's submit event
+form.addEventListener('submit', (e) => {
+  // Check if the form is valid
+  if (!form.checkValidity()) {
+    e.preventDefault(); // Prevent form submission if validation fails
+    form.reportValidity(); // Trigger browser's built-in validation UI to show errors
+  }
+});
+
+</script>
+
+
+

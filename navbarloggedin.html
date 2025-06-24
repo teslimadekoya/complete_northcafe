@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Page setup -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navbar Logged In – North Café</title>
+
+  <!-- Tailwind CSS build -->
+  <link rel="stylesheet" href="output.css" />
+
+  <!-- Fonts -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
+  </style>
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="bg-white">
+
+<!-- ====== Navbar (Top Fixed) ====== -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-white">
+  <div class="max-w-[1440px] mx-auto px-[64px] py-[32px] flex justify-between items-center max-md:px-[16px]">
+
+    <!-- ====== Logo ====== -->
+    <nav>
+      <a href="index.html" class="text-[#B20201] font-[700] text-[36px] leading-[44px] dancing-script max-lg:text-[24px]">North Café</a>
+    </nav>
+
+    <!-- ====== Desktop Navigation Links ====== -->
+    <nav class="flex gap-[24px] items-center text-[16px] custom-font leading-[32px] max-lg:gap-[16px] max-md:hidden">
+      <a href="index.html" class="text-[#4E4E4E] hover:text-[#010101] hover:font-[700]">Menu</a>
+      <a href="about.html" class="text-[#4E4E4E] hover:text-[#010101] hover:font-[700]">About</a>
+      <a href="about.html#careers" class="text-[#4E4E4E] hover:text-[#010101] hover:font-[700]">Careers</a>
+    </nav>
+
+    <!-- ====== User Info (Desktop + Mobile Toggle) ====== -->
+    <nav class="flex gap-[24px] items-center custom-font leading-[26px]">
+
+      <!-- === Mobile Search + Hamburger Button === -->
+      <div class="md:hidden flex items-center justify-center gap-[16px]">
+        <button onclick="toggleMenu()" class="flex items-center justify-center">
+          <i class="fas fa-bars text-[#010101] text-[20px] cursor-pointer"></i>
+        </button>
+      </div>
+
+      <!-- === Desktop User Area (Cart + Name + Dropdown) === -->
+      <div class="hidden md:flex items-center gap-[16px] relative">
+        <!-- Cart Icon -->
+        <i class="fas fa-shopping-cart text-[20px] text-[#010101]"></i>
+
+        <!-- Username + Account Label -->
+        <div class="flex flex-col items-start">
+          <span class="text-[#010101] text-[16px] font-[600] leading-tight">Teslim</span>
+          <span class="text-green-800 text-[14px] font-[400] leading-tight cursor-pointer" onclick="toggleDropdown(event)">Manage Account</span>
+        </div>
+
+        <!-- Avatar + ▼ dropdown trigger -->
+        <div class="relative flex items-center gap-[4px]">
+          <a href="profile.html">
+            <span class="inline-block w-[40px] h-[40px] rounded-full bg-black"></span> <!-- Placeholder Avatar -->
+          </a>
+          <span class="text-[#4E4E4E] text-[16px] cursor-pointer" onclick="toggleDropdown(event)">▼</span>
+
+          <!-- === Dropdown Menu (Profile + Log Out) === -->
+          <div id="desktopDropdown" class="absolute top-[52px] right-0 w-fit whitespace-nowrap bg-white border border-[#D9D9D9] rounded-[16px] shadow-lg p-[16px] flex flex-col gap-[12px] z-50 hidden">
+            <a href="profile.html" class="flex items-center gap-[8px] text-[#4E4E4E] text-[16px] font-[500] hover:text-[#010101] hover:font-[600] transition-colors duration-200">
+              <i class="fas fa-user text-[16px]"></i>
+              <span>Profile</span>
+            </a>
+            <button onclick="openLogoutModal()" class="flex items-center gap-[8px] text-[#B20201] text-[16px] font-[500] hover:text-[#8B0101] hover:font-[600] transition-colors duration-200">
+              <i class="fas fa-sign-out-alt text-[16px]"></i>
+              <span>Log Out</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- ====== Mobile Menu (Opens When Hamburger Clicked) ====== -->
+<div id="mobile-menu" class="fixed inset-0 z-50 bg-white hidden">
+  <div class="flex flex-col h-full p-[32px]">
+    <!-- Close Button -->
+    <div class="flex justify-end">
+      <button onclick="toggleMenu()">
+        <i class="fas fa-times text-[32px]"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Menu Links -->
+    <div class="flex flex-col items-center justify-center flex-1 gap-[28px] text-center">
+      <!-- Primary Links -->
+      <a href="index.html" class="text-[#4E4E4E] text-[20px] font-[500] hover:font-[700] hover:text-[#010101]">Menu</a>
+      <a href="about.html" class="text-[#4E4E4E] text-[20px] font-[500] hover:font-[700] hover:text-[#010101]">About</a>
+      <a href="about.html#careers" class="text-[#4E4E4E] text-[20px] font-[500] hover:font-[700] hover:text-[#010101]">Careers</a>
+
+      <!-- Divider (Optional) -->
+      <div class="h-[1px] w-full bg-[#E5E5E5] my-[8px]"></div>
+
+      <!-- Account Actions -->
+      <a href="profile.html" class="flex items-center gap-[12px] text-[#4E4E4E] text-[20px] font-[500] hover:text-[#010101] hover:font-[600] transition duration-200">
+        <i class="fas fa-user text-[24px]"></i>
+        <span>Profile</span>
+      </a>
+      <button onclick="openLogoutModal()" class="flex items-center gap-[12px] text-[#B20201] text-[20px] font-[500] hover:text-[#8B0101] hover:font-[600] transition duration-200">
+        <i class="fas fa-sign-out-alt text-[24px]"></i>
+        <span>Log Out</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ====== Logout Modal ====== -->
+<div id="logoutModal" class="fixed inset-0 bg-black/60 z-50 opacity-0 pointer-events-none transition-opacity duration-200 flex items-center justify-center">
+  <div class="bg-white rounded-[12px] p-[32px] max-w-[400px] w-full mx-4 transform scale-95 transition-all duration-200">
+    <h3 class="custom-font font-[600] text-[24px] text-[#010101] mb-[16px]">Log out?</h3>
+    <p class="custom-font text-[16px] text-[#4E4E4E] mb-[24px]">Are you sure you want to log out of your account?</p>
+    <div class="flex flex-col gap-[16px] items-center w-full">
+      <button onclick="closeLogoutModal()" class="w-full px-[24px] py-[12px] custom-font text-[16px] text-[#4E4E4E] border border-[#D1D1D1] rounded-[900px] hover:bg-[#F3F3F3] transition-colors duration-200">Cancel</button>
+      <button onclick="confirmLogout()" class="w-full px-[24px] py-[12px] custom-font text-[16px] text-white bg-[#B20201] rounded-[900px] hover:bg-[#8B0101] transition-colors duration-200">Log Out</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== Scripts Section ====== -->
+<script>
+  // Toggle Mobile Menu
+  function toggleMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const isHidden = menu.classList.contains('hidden');
+    menu.classList.toggle('hidden');
+    document.body.style.overflow = isHidden ? 'hidden' : '';
+  }
+
+  // Toggle User Dropdown
+  function toggleDropdown(event) {
+    event.stopPropagation(); // Prevent clicking outside from closing instantly
+    const dropdown = document.getElementById('desktopDropdown');
+    dropdown.classList.toggle('hidden');
+
+    // Close dropdown if clicked outside
+    document.addEventListener('click', function closeHandler(e) {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.add('hidden');
+        document.removeEventListener('click', closeHandler);
+      }
+    });
+  }
+
+  // Open Logout Modal
+  function openLogoutModal() {
+    const modal = document.getElementById('logoutModal');
+    modal.classList.remove('opacity-0', 'pointer-events-none');
+    modal.classList.add('opacity-100');
+    modal.querySelector('div').classList.remove('scale-95');
+    modal.querySelector('div').classList.add('scale-100');
+  }
+
+  // Close Logout Modal
+  function closeLogoutModal() {
+    const modal = document.getElementById('logoutModal');
+    modal.classList.add('opacity-0', 'pointer-events-none');
+    modal.classList.remove('opacity-100');
+    modal.querySelector('div').classList.add('scale-95');
+    modal.querySelector('div').classList.remove('scale-100');
+  }
+
+  // Confirm Logout (Redirect to login)
+  function confirmLogout() {
+    alert("You have been logged out.");
+    window.location.href = "login.html";
+  }
+</script>
+
+</body>
+</html>

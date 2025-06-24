@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North Cafe</title>
+    <link rel="stylesheet" href="output.css">
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+</style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<body class="bg-white">
+ <!-- Header -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-white px-[64px] py-[32px] flex justify-between items-center max-md:px-[16px]">
+  <nav>
+    <a href="index.html" class="logo text-[#B20201] font-[700] text-[36px] leading-[44px] dancing-script max-lg:text-[24px]">
+      North Café
+    </a>
+  </nav>
+
+  <nav class="flex gap-[24px] items-center text-[16px] custom-font leading-[32px] max-lg:gap-[16px] max-md:hidden">
+    <a href="index.html" class="text-[#4E4E4E] hover:text-[#010101] custom-font">Menu</a>
+    <a href="about.html" class="text-[#4E4E4E] custom-font hover:text-[#010101] hover:font-[700]">About</a>
+    <a href="about.html#careers" class="text-[#4E4E4E] custom-font hover:text-[#010101] hover:font-[700]">Careers</a>
+  </nav>
+
+  <div class="flex items-center gap-[24px]">
+    <!-- Desktop Navigation -->
+    <nav class="flex gap-[24px] items-center custom-font leading-[26px] max-md:hidden">
+    <!-- Cart Icon (Desktop Only) -->
+    <a href="#" class="hidden md:flex" id="cart-link-desktop">
+      <i class="fas fa-shopping-cart text-[20px] text-[#010101]"></i>
+    </a>
+
+      <!-- Logged Out State -->
+      <div id="logged-out-nav" class="flex items-center gap-[24px]">
+        <a href="login.html" class="text-[#B20201] text-[20px] font-[700] max-md:hidden custom-font">Log In</a>
+        <a href="signup.html" class="px-[24px] py-[12px] custom-font text-[20px] text-white bg-[#B20201] font-[700] max-md:hidden">Sign Up</a>
+      </div>
+
+      <!-- Logged In State -->
+      <div id="logged-in-nav" class="hidden items-center gap-[24px]">
+        <div class="flex items-center gap-[8px] max-md:hidden">
+          <div class="w-[40px] h-[40px] rounded-full bg-[#B20201] flex items-center justify-center">
+            <span id="user-initial" class="text-white text-[20px] font-[700]"></span>
+          </div>
+          <div class="flex flex-col items-start">
+            <span id="user-name" class="text-[#010101] text-[16px] font-[600] leading-tight"></span>
+            <div class="flex items-center gap-[4px]">
+              <span class="text-green-800 text-[14px] font-[400] leading-tight cursor-pointer" onclick="toggleDropdown(event)">Manage Account</span>
+              <span class="text-[#4E4E4E] text-[14px] cursor-pointer" onclick="toggleDropdown(event)">▼</span>
+            </div>
+          </div>
+        </div>
+        <div id="desktopDropdown" class="absolute top-[52px] right-[64px] w-fit whitespace-nowrap bg-white border border-[#D9D9D9] rounded-[16px] shadow-lg p-[16px] flex flex-col gap-[12px] z-50 hidden max-md:hidden">
+          <a href="profile.html" class="flex items-center gap-[8px] text-[#4E4E4E] text-[16px] font-[500] hover:text-[#010101] hover:font-[600] transition-colors duration-200">
+            <i class="fas fa-user text-[16px]"></i>
+            <span>Profile</span>
+          </a>
+          <button onclick="handleLogout()" class="flex items-center gap-[8px] text-[#B20201] text-[16px] font-[500] hover:text-[#8B0101] hover:font-[600] transition-colors duration-200">
+            <i class="fas fa-sign-out-alt text-[16px]"></i>
+            <span>Log Out</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu Icons - Always at the end -->
+    <div class="md:hidden flex items-center justify-center gap-[16px]">
+      <a href="#" class="flex" id="cart-link-mobile">
+        <i class="fas fa-shopping-cart text-[#010101] text-[20px]"></i>
+      </a>
+      <button onclick="toggleMenu()" class="flex items-center justify-center">
+        <i class="fas fa-bars text-[#010101] text-[20px] cursor-pointer"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="fixed inset-0 z-50 bg-white hidden">
+  <div class="flex flex-col h-full p-[32px]">
+    <!-- Close Button -->
+    <div class="flex justify-end">
+      <button onclick="toggleMenu()">
+        <i class="fas fa-times text-[32px]"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Menu Links -->
+    <div class="flex flex-col items-center justify-center flex-1 gap-[28px] text-center">
+      <!-- Primary Links -->
+      <a href="index.html" class="text-[#4E4E4E] text-[20px] font-[500] hover:font-[700] hover:text-[#010101]">Menu</a>
+      <a href="about.html" class="text-[#4E4E4E] text-[20px] font-[500] hover:font-[700] hover:text-[#010101]">About</a>
+      <a href="about.html#careers" class="text-[#4E4E4E] text-[20px] font-[500] hover:font-[700] hover:text-[#010101]">Careers</a>
+
+      <!-- Divider -->
+      <div class="h-[1px] w-full bg-[#E5E5E5] my-[8px]"></div>
+
+      <!-- Logged Out Mobile Menu -->
+      <div id="logged-out-mobile" class="flex flex-col items-center gap-[24px]">
+        <a href="login.html" class="text-[#B20201] text-[20px] font-[700]">Log In</a>
+      <a href="signup.html" class="px-[24px] py-[12px] text-[20px] text-white bg-[#B20201] font-[700] w-fit">Sign Up</a>
+      </div>
+
+      <!-- Logged In Mobile Menu -->
+      <div id="logged-in-mobile" class="hidden flex flex-col items-center">
+        <a href="profile.html" class="flex items-center gap-[12px] text-[#4E4E4E] text-[20px] font-[500] hover:text-[#010101] hover:font-[600] transition duration-200 mb-[24px]">
+          <i class="fas fa-user text-[24px]"></i>
+          <span>Profile</span>
+        </a>
+        <button onclick="handleLogout()" class="flex items-center gap-[12px] text-[#B20201] text-[20px] font-[500] hover:text-[#8B0101] hover:font-[600] transition duration-200">
+          <i class="fas fa-sign-out-alt text-[24px]"></i>
+          <span>Log Out</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<main>
+    <section id="menu" class="mx-[64px] max-md:mx-[16px]">
+        <h1 class="text-[#010101] text-[48px] my-[32px] mt-[120px] text-center font-custom-font max-lg:my-[24px] max-md:my-[16px] max-sm:text-[40px] max-lg:mt-[100px] max-md:mt-[100px]">Menu</h1>
+        
+        <!-- Search Bar -->
+        <div class="relative w-full border pl-10 py-[8px] px-[24px] rounded-[900px] border-[#D1D1D1]">
+            <img src="images/SearchIcon.svg" alt="Search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 opacity-60" />
+            <input type="search" id="search-input" placeholder="Search for items..." class="text-[] w-full focus:outline-none focus:ring-0 text-[16px] leading-[24px] text-[#010101] bg-transparent" />
+        </div>
+
+        <!-- Spacer -->
+        <div class="h-[64px] max-md:h-[32px]"></div>
+
+        <!-- Food Grid -->
+        <div id="meals-container" class="grid grid-cols-3 gap-[128px] max-lg:grid-cols-2 max-lg:gap-[88px] max-md:grid-cols-1 max-md:gap-[44px] mb-[200px]">
+          <!-- Meals will be loaded here -->
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-[#F3F3F3]">
+    <div class="flex justify-between p-[64px] max-md:p-[32px] max-md:flex-col">
+        <nav>
+            <h2 class="custom-font font-[400] text-[#010101] text-[36px] leading-[44px] mb-[24px] max-md:text-[32px]">Think Big. Start at North Café.</h2>
+            <a href="about.html#careers" class="px-[24px] py-[12px] text-[16px] text-white bg-[#B20201] font-[700] w-fit">Send Resumé</a>
+        </nav>
+        <nav class="flex flex-col gap-[8px] max-md:mt-[28px]">
+            <h3 class="font-[600] text-[14px] leading-[22px] text-[#010101] custom-font uppercase ">COMPANY</h3>
+            <a href="index.html" class="font-[400] text-[14px] leading-[22px] text-[#4E4E4E] custom-font">Menu</a>
+            <a href="about.html" class="font-[400] text-[14px] leading-[22px] text-[#4E4E4E] custom-font">About</a>
+            <a href="about.html#careers" class="font-[400] text-[14px] leading-[22px] text-[#4E4E4E] custom-font">Careers</a>
+        </nav>
+        <nav class="flex flex-col gap-[8px] max-md:mt-[28px]">
+            <h3 class="font-[600] text-[14px] leading-[22px] text-[#010101] custom-font uppercase">SOCIALS</h3>
+            <a href="https://linkedin.com" target="_blank" class="font-[400] text-[14px] leading-[22px] text-[#4E4E4E] custom-font">LinkedIn</a>
+            <a href="https://youtube.com" target="_blank" class="font-[400] text-[14px] leading-[22px] text-[#4E4E4E] custom-font">Youtube</a>
+            <a href="https://instagram.com" target="_blank" class="font-[400] text-[14px] leading-[22px] text-[#4E4E4E] custom-font">Instagram</a>
+        </nav>
+    </div>
+    <div class="">
+        <p class="font-[400] text-[14px] leading-[22px] text-[#010101] custom-font p-[32px] text-center">© 2025 North Café. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- ====== Logout Modal ====== -->
+<div id="logoutModal" class="fixed inset-0 bg-black/60 z-50 opacity-0 pointer-events-none transition-opacity duration-200 flex items-center justify-center">
+  <div class="bg-white rounded-[12px] p-[32px] max-w-[400px] w-full mx-4 transform scale-95 transition-all duration-200">
+    <h3 class="custom-font font-[600] text-[24px] text-[#010101] mb-[16px]">Log out?</h3>
+    <p class="custom-font text-[16px] text-[#4E4E4E] mb-[24px]">Are you sure you want to log out of your account?</p>
+    <div class="flex flex-col gap-[16px] items-center w-full">
+      <button onclick="closeLogoutModal()" class="w-full px-[24px] py-[12px] custom-font text-[16px] text-[#4E4E4E] border border-[#D1D1D1] rounded-[900px] hover:bg-[#F3F3F3] transition-colors duration-200">Cancel</button>
+      <button onclick="confirmLogout()" class="w-full px-[24px] py-[12px] custom-font text-[16px] text-white bg-[#B20201] rounded-[900px] hover:bg-[#8B0101] transition-colors duration-200">Log Out</button>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById('mobile-menu');
+        const isHidden = menu.classList.contains('hidden');
+        menu.classList.toggle('hidden');
+        document.body.style.overflow = isHidden ? 'hidden' : '';
+    }
+</script>
+
+<style>
+    .active {
+        color: #010101 !important;
+        font-weight: 700 !important;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const path = window.location.pathname.split("/").pop(); // e.g. index.html or about.html
+        const navLinks = document.querySelectorAll('a[href]:not(.logo)'); // skip logo
+
+        navLinks.forEach(link => {
+            const href = link.getAttribute("href");
+            if (href === path) {
+                link.classList.add("active");
+            }
+        });
+    });
+</script>
+
+<script>
+  let allMeals = []; // Store all meals for filtering
+
+  async function fetchMeals() {
+    try {
+      console.log('Fetching meals...');
+      const response = await fetch('http://localhost:8000/api/meals/');
+      const meals = await response.json();
+      console.log('Meals received:', meals);
+      
+      const mealsContainer = document.getElementById('meals-container');
+      if (!mealsContainer) {
+        console.error('Meals container not found!');
+        return;
+      }
+      
+      if (!Array.isArray(meals) || meals.length === 0) {
+        console.log('No meals found, using sample data');
+        // Use sample data if fetch fails
+        allMeals = [
+          { id: 1, name: 'Espresso', price: 500, image_url: 'images/menu/coffee1.png' },
+          { id: 2, name: 'Cappuccino', price: 1000, image_url: 'images/menu/coffee2.png' },
+          { id: 3, name: 'Iced Latte', price: 1500, image_url: 'images/menu/coffee3.png' },
+          { id: 4, name: 'Cold Brew', price: 2000, image_url: 'images/menu/coffee4.png' },
+          { id: 5, name: 'Croissant', price: 2500, image_url: 'images/menu/pastry1.png' },
+          { id: 6, name: 'Chocolate Muffin', price: 3000, image_url: 'images/menu/pastry2.png' }
+        ];
+      } else {
+        allMeals = meals;
+      }
+      // Save meals to localStorage for sharing with search.html
+      localStorage.setItem('allMeals', JSON.stringify(allMeals));
+      renderMeals(allMeals);
+      console.log('Meals rendered successfully');
+    } catch (error) {
+      console.error('Error fetching meals:', error);
+      // Use sample data if fetch fails
+      allMeals = [
+        { id: 1, name: 'Espresso', price: 500, image_url: 'images/menu/coffee1.png' },
+        { id: 2, name: 'Cappuccino', price: 1000, image_url: 'images/menu/coffee2.png' },
+        { id: 3, name: 'Iced Latte', price: 1500, image_url: 'images/menu/coffee3.png' },
+        { id: 4, name: 'Cold Brew', price: 2000, image_url: 'images/menu/coffee4.png' },
+        { id: 5, name: 'Croissant', price: 2500, image_url: 'images/menu/pastry1.png' },
+        { id: 6, name: 'Chocolate Muffin', price: 3000, image_url: 'images/menu/pastry2.png' }
+      ];
+      renderMeals(allMeals);
+    }
+  }
+
+  function renderMeals(meals) {
+    const mealsContainer = document.getElementById('meals-container');
+    if (!meals.length) {
+      mealsContainer.innerHTML = '<p class="text-red-500">No meals available.</p>';
+      return;
+    }
+    mealsContainer.innerHTML = meals.map(meal => {
+      // Use the backend image URL directly since CORS is configured
+      let imageUrl = meal.image || meal.image_url || 'images/menu/foodHovered.png';
+      
+      return `
+      <div class="group flex flex-col items-center relative transition-all duration-200">
+        <div onclick="goToAddPage(${meal.id})" style="cursor:pointer; width:100%">
+          <img src="${imageUrl}" alt="${meal.name}" onerror="this.onerror=null; this.src='images/menu/foodHovered.png';" />
+          <div class="flex flex-col items-center mt-8">
+            <p class="custom-font text-[22px] font-[700] text-center mb-[2px] text-[#010101]" style="cursor:pointer;" >${meal.name}</p>
+            <p class="text-[#4E4E4E] custom-font text-center" style="cursor:pointer;">₦${Number(meal.price).toLocaleString()}</p>
+          </div>
+        </div>
+        <div class="add-to-cart flex items-center mt-2 cursor-pointer transition-all duration-200" onclick="goToAddPage(${meal.id})">
+          <img src="images/add.svg" alt="Add to cart" class="add-to-cart-icon transition-all duration-200" />
+          <span class="custom-font text-[18px] text-[#B20201] font-[400] ml-2 add-to-cart-text transition-all duration-200">Add to cart</span>
+        </div>
+      </div>
+    `}).join('');
+  }
+
+  function handleSearch(event) {
+    const searchTerm = event.target.value.toLowerCase().trim();
+    const filteredMeals = allMeals.filter(meal => 
+      meal.name.toLowerCase().includes(searchTerm)
+    );
+    renderMeals(filteredMeals);
+  }
+
+  // Add event listener for search input
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', handleSearch);
+      searchInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          handleSearch(event);
+        }
+      });
+    }
+    fetchMeals();
+  });
+
+  function goToAddPage(mealId) {
+    const meal = allMeals.find(m => m.id === mealId);
+    if (meal) {
+      localStorage.setItem('selectedMeal', JSON.stringify(meal));
+      window.location.href = 'add.html';
+    }
+  }
+</script>
+
+<script src="header.js"></script>
+
+<script>
+  function checkLoginState() {
+    // Check for regular login tokens
+    const token = localStorage.getItem('token') || localStorage.getItem('access_token');
+    const userEmail = localStorage.getItem('userEmail');
+    const userData = localStorage.getItem('user');
+    
+    const loggedOutNav = document.getElementById('logged-out-nav');
+    const loggedInNav = document.getElementById('logged-in-nav');
+    const loggedOutMobile = document.getElementById('logged-out-mobile');
+    const loggedInMobile = document.getElementById('logged-in-mobile');
+    const userNameElement = document.getElementById('user-name');
+    const userInitialElement = document.getElementById('user-initial');
+    
+    if (token && (userEmail || userData)) {
+      // User is logged in
+      loggedOutNav.classList.add('hidden');
+      loggedInNav.classList.remove('hidden');
+      loggedOutMobile.classList.add('hidden');
+      loggedInMobile.classList.remove('hidden');
+      
+      let username = '';
+      let firstName = '';
+      
+      if (userData) {
+        // Regular user data
+        try {
+          const user = JSON.parse(userData);
+          username = user.username || user.email.split('@')[0];
+          firstName = user.first_name || user.username || user.email.split('@')[0];
+        } catch (e) {
+          console.error('Error parsing user data:', e);
+          username = userEmail ? userEmail.split('@')[0] : 'User';
+          firstName = username;
+        }
+      } else if (userEmail) {
+        // Regular login user data
+        username = userEmail.split('@')[0];
+        firstName = username;
+      }
+      
+      // Set username and initial
+      userNameElement.textContent = firstName;
+      userInitialElement.textContent = firstName.charAt(0).toUpperCase();
+    } else {
+      // User is logged out
+      loggedOutNav.classList.remove('hidden');
+      loggedInNav.classList.add('hidden');
+      loggedOutMobile.classList.remove('hidden');
+      loggedInMobile.classList.add('hidden');
+    }
+  }
+
+  function handleLogout() {
+    // Clear all types of tokens and user data
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('user');
+    window.location.href = 'login.html';
+  }
+
+  function toggleDropdown(event) {
+    event.stopPropagation();
+    const dropdown = document.getElementById('desktopDropdown');
+    dropdown.classList.toggle('hidden');
+
+    document.addEventListener('click', function closeHandler(e) {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.add('hidden');
+        document.removeEventListener('click', closeHandler);
+      }
+    });
+  }
+
+  // Check login state when page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    checkLoginState();
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', handleSearch);
+      searchInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          handleSearch(event);
+        }
+      });
+    }
+    fetchMeals();
+  });
+
+  // Also check login state when the page becomes visible (for redirects)
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      checkLoginState();
+    }
+  });
+</script>
+
+<style>
+  .add-to-cart:hover .add-to-cart-icon {
+    transform: scale(1.25);
+    filter: drop-shadow(0 2px 6px #b2020122);
+  }
+  .add-to-cart:hover .add-to-cart-text {
+    font-weight: 700 !important;
+    transform: scale(1.12);
+    letter-spacing: 0.5px;
+  }
+  @media (max-width: 767px) {
+    #menu .h-\[64px\] { height: 24px !important; }
+  }
+</style>
+
+<!-- Update CSS for group hover effect -->
+<style>
+  .group:hover .add-to-cart-icon {
+    transform: scale(1.25);
+    filter: drop-shadow(0 2px 6px #b2020122);
+  }
+  .group:hover .add-to-cart-text {
+    font-weight: 700 !important;
+    transform: scale(1.12);
+    letter-spacing: 0.5px;
+  }
+</style>
+
+<script>
+function handleCartClick(event, isDesktop) {
+  event.preventDefault();
+  window.location.href = 'cart.html';
+}
+document.addEventListener('DOMContentLoaded', function() {
+  const cartLinkDesktop = document.getElementById('cart-link-desktop');
+  if (cartLinkDesktop) {
+    cartLinkDesktop.addEventListener('click', function(e) { handleCartClick(e, true); });
+  }
+  const cartLinkMobile = document.getElementById('cart-link-mobile');
+  if (cartLinkMobile) {
+    cartLinkMobile.addEventListener('click', function(e) { handleCartClick(e, false); });
+  }
+});
+</script>
+
+<script>
+function openLogoutModal() {
+  const modal = document.getElementById('logoutModal');
+  modal.classList.remove('opacity-0', 'pointer-events-none');
+  modal.classList.add('opacity-100');
+}
+function closeLogoutModal() {
+  const modal = document.getElementById('logoutModal');
+  modal.classList.add('opacity-0', 'pointer-events-none');
+  modal.classList.remove('opacity-100');
+}
+function confirmLogout() {
+  closeLogoutModal();
+  handleLogout();
+}
+</script>
+
+<script src="cart.js"></script>
+</body>
+</html>

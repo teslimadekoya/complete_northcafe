@@ -1,0 +1,58 @@
+ @import "tailwindcss";
+
+
+ body{
+  max-width: 1440px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+@layer utilities {
+    .custom-font {
+      font-family: "inter", sans-serif;
+    }
+  }
+@layer utilities {
+    .dancing-script {
+      font-family: "Dancing Script", cursive;
+    }
+  }
+  @layer utilities {
+    .satisfy {
+      font-family: "Satisfy", cursive;
+    }
+  }
+@media (max-width: 375px) {
+  .delivery-location-wrapper {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+  
+  /* Optional: Make the select take full width on small screens */
+  .delivery-location-wrapper select {
+    width: 100% !important;
+  }
+}
+
+
+/* Show ONLY the mute/unmute button */
+video::-webkit-media-controls {
+  display: none !important;
+}
+
+video::-webkit-media-controls-mute-button {
+  display: block !important;
+  margin-right: 10px;
+}
+
+/* Hide everything else */
+video::-webkit-media-controls-play-button,
+video::-webkit-media-controls-timeline,
+video::-webkit-media-controls-current-time-display,
+video::-webkit-media-controls-time-remaining-display,
+video::-webkit-media-controls-volume-slider,
+video::-webkit-media-controls-fullscreen-button,
+video::-webkit-media-controls-enclosure {
+  display: none !important;
+}

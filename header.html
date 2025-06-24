@@ -1,0 +1,124 @@
+<!-- Shared Header for all pages -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-white px-[64px] py-[32px] flex justify-between items-center max-md:px-[16px]">
+  <nav>
+    <a href="index.html" class="logo text-[#B20201] font-[700] text-[36px] leading-[44px] dancing-script max-lg:text-[24px]">
+      North Café
+    </a>
+  </nav>
+  <nav class="flex gap-[24px] items-center text-[16px] custom-font leading-[32px] max-lg:gap-[16px] max-md:hidden">
+    <a href="index.html" class="text-[#4E4E4E] hover:text-[#010101] custom-font">Menu</a>
+    <a href="about.html" class="text-[#4E4E4E] custom-font hover:text-[#010101] hover:font-[700] active">About</a>
+    <a href="about.html#careers" class="text-[#4E4E4E] custom-font hover:text-[#010101] hover:font-[700]">Careers</a>
+  </nav>
+  <div class="flex items-center gap-[24px]">
+    <!-- Desktop Navigation -->
+    <nav class="flex gap-[24px] items-center custom-font leading-[26px] max-md:hidden">
+      <!-- Cart Icon (Desktop Only) -->
+      <a href="cart.html" class="hidden md:flex" id="cart-link-desktop">
+        <i class="fas fa-shopping-cart text-[20px] text-[#010101]"></i>
+      </a>
+      <!-- Logged Out State -->
+      <div id="logged-out-nav" class="flex items-center gap-[24px]">
+        <a href="login.html" class="text-[#B20201] text-[20px] font-[700] max-md:hidden custom-font">Log In</a>
+        <a href="signup.html" class="px-[24px] py-[12px] custom-font text-[20px] text-white bg-[#B20201] font-[700] max-md:hidden">Sign Up</a>
+      </div>
+      <!-- Logged In State -->
+      <div id="logged-in-nav" class="hidden items-center gap-[24px]">
+        <div class="flex items-center gap-[8px] max-md:hidden">
+          <div class="w-[40px] h-[40px] rounded-full bg-[#B20201] flex items-center justify-center">
+            <span id="user-initial" class="text-white text-[20px] font-[700]"></span>
+          </div>
+          <div class="flex flex-col items-start">
+            <span id="user-name" class="text-[#010101] text-[16px] font-[600] leading-tight"></span>
+            <div class="flex items-center gap-[4px]">
+              <span class="text-green-800 text-[14px] font-[400] leading-tight cursor-pointer" onclick="toggleDropdown(event)">Manage Account</span>
+              <span class="text-[#4E4E4E] text-[14px] cursor-pointer" onclick="toggleDropdown(event)">▼</span>
+            </div>
+          </div>
+        </div>
+        <div id="desktopDropdown" class="absolute top-[52px] right-[64px] w-fit whitespace-nowrap bg-white border border-[#D9D9D9] rounded-[16px] shadow-lg p-[16px] flex flex-col gap-[12px] z-50 hidden max-md:hidden">
+          <a href="profile.html" class="flex items-center gap-[8px] text-[#4E4E4E] text-[16px] font-[500] hover:text-[#010101] hover:font-[600] transition-colors duration-200">
+            <i class="fas fa-user text-[16px]"></i>
+            <span>Profile</span>
+          </a>
+          <button onclick="handleLogout()" class="flex items-center gap-[8px] text-[#B20201] text-[16px] font-[500] hover:text-[#8B0101] hover:font-[600] transition-colors duration-200">
+            <i class="fas fa-sign-out-alt text-[16px]"></i>
+            <span>Log Out</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+    <!-- Mobile Menu Icons - Always at the end -->
+    <div class="md:hidden flex items-center justify-center gap-[16px]">
+      <a href="cart.html" class="flex" id="cart-link-mobile">
+        <i class="fas fa-shopping-cart text-[#010101] text-[20px]"></i>
+      </a>
+      <button onclick="toggleMenu()" class="flex items-center justify-center">
+        <i class="fas fa-bars text-[#010101] text-[20px] cursor-pointer"></i>
+      </button>
+    </div>
+  </div>
+</header>
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="fixed inset-0 z-50 bg-white hidden">
+  <div class="flex flex-col h-full p-[32px]">
+    <div class="flex justify-end">
+      <button onclick="toggleMenu()">
+        <i class="fas fa-times text-[32px]"></i>
+      </button>
+    </div>
+    <div class="flex flex-col items-center justify-center flex-1 gap-[28px] text-center">
+      <a href="index.html" class="text-[#4E4E4E] text-[20px] font-[500] hover:font-[700] hover:text-[#010101]">Menu</a>
+      <a href="about.html" class="text-[#4E4E4E] text-[20px] font-[500] hover:font-[700] hover:text-[#010101]">About</a>
+      <a href="about.html#careers" class="text-[#4E4E4E] text-[20px] font-[500] hover:font-[700] hover:text-[#010101]">Careers</a>
+      <div class="h-[1px] w-full bg-[#E5E5E5] my-[8px]"></div>
+      <div id="logged-out-mobile" class="flex flex-col items-center gap-[24px]">
+        <a href="login.html" class="text-[#B20201] text-[20px] font-[700]">Log In</a>
+        <a href="signup.html" class="px-[24px] py-[12px] text-[20px] text-white bg-[#B20201] font-[700] w-fit">Sign Up</a>
+      </div>
+      <div id="logged-in-mobile" class="hidden flex flex-col items-center">
+        <a href="profile.html" class="flex items-center gap-[12px] text-[#4E4E4E] text-[20px] font-[500] hover:text-[#010101] hover:font-[600] transition duration-200 mb-[24px]">
+          <i class="fas fa-user text-[24px]"></i>
+          <span>Profile</span>
+        </a>
+        <button onclick="openLogoutModal()" class="flex items-center gap-[12px] text-[#B20201] text-[20px] font-[500] hover:text-[#8B0101] hover:font-[600] transition duration-200">
+          <i class="fas fa-sign-out-alt text-[24px]"></i>
+          <span>Log Out</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ====== Logout Modal ====== -->
+<div id="logoutModal" class="fixed inset-0 bg-black/60 z-50 opacity-0 pointer-events-none transition-opacity duration-200 flex items-center justify-center">
+  <div class="bg-white rounded-[12px] p-[32px] max-w-[400px] w-full mx-4 transform scale-95 transition-all duration-200">
+    <h3 class="custom-font font-[600] text-[24px] text-[#010101] mb-[16px]">Log out?</h3>
+    <p class="custom-font text-[16px] text-[#4E4E4E] mb-[24px]">Are you sure you want to log out of your account?</p>
+    <div class="flex flex-col gap-[16px] items-center w-full">
+      <button onclick="closeLogoutModal()" class="w-full px-[24px] py-[12px] custom-font text-[16px] text-[#4E4E4E] border border-[#D1D1D1] rounded-[900px] hover:bg-[#F3F3F3] transition-colors duration-200">Cancel</button>
+      <button onclick="confirmLogout()" class="w-full px-[24px] py-[12px] custom-font text-[16px] text-white bg-[#B20201] rounded-[900px] hover:bg-[#8B0101] transition-colors duration-200">Log Out</button>
+    </div>
+  </div>
+</div>
+<script>
+function openLogoutModal() {
+  const modal = document.getElementById('logoutModal');
+  modal.classList.remove('opacity-0', 'pointer-events-none');
+  modal.classList.add('opacity-100');
+}
+function closeLogoutModal() {
+  const modal = document.getElementById('logoutModal');
+  modal.classList.add('opacity-0', 'pointer-events-none');
+  modal.classList.remove('opacity-100');
+}
+function confirmLogout() {
+  closeLogoutModal();
+  handleLogout();
+}
+function toggleMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const isHidden = menu.classList.contains('hidden');
+  menu.classList.toggle('hidden');
+  document.body.style.overflow = isHidden ? 'hidden' : '';
+}
+</script> 

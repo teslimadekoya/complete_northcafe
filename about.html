@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>North Cafe - About</title>
+  <link rel="stylesheet" href="output.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
+  </style>
+  <style>
+.active {
+  color: #010101 !important;
+  font-weight: 700 !important;
+}
+  </style>
+  <style>
+    @media (min-width: 1024px) and (max-width: 1440px) {
+      .slider-gap-fix {
+        gap: 24px !important;
+      }
+    }
+    @media (min-width: 1440px) {
+      #foodImage {
+        width: 1024px !important;
+        height: 520px !important;
+      }
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<script>
+// Auto-refresh on first visit to about.html to ensure video loads correctly
+if (!sessionStorage.getItem('aboutRefreshed')) {
+  sessionStorage.setItem('aboutRefreshed', 'true');
+  window.location.reload();
+}
+</script>
+<div id="header-placeholder"></div>
+<script src="header.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  fetch('header.html')
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('header-placeholder').innerHTML = html;
+      setTimeout(() => {
+        if (typeof checkLoginState === 'function') checkLoginState();
+      }, 50);
+      // Dynamically add 'active' class to About link
+      const path = window.location.pathname.split("/").pop();
+      const navLinks = document.querySelectorAll('nav a[href]');
+      navLinks.forEach(link => {
+        const href = link.getAttribute("href").split("#")[0];
+        if (href === 'about.html' && path === 'about.html') {
+          link.classList.add("active");
+          link.style.color = '#010101'; // Force color in case of specificity issues
+        }
+      });
+      // Ensure cart icon links to cart.html
+      function setCartLinks() {
+        const cartDesktop = document.getElementById('cart-link-desktop');
+        if (cartDesktop) cartDesktop.setAttribute('href', 'cart.html');
+        const cartMobile = document.getElementById('cart-link-mobile');
+        if (cartMobile) cartMobile.setAttribute('href', 'cart.html');
+      }
+      setCartLinks();
+      setTimeout(setCartLinks, 100);
+      setTimeout(setCartLinks, 500);
+      // Video logic
+      const video = document.getElementById('myVideo');
+      if (video) {
+        video.muted = true;
+        video.load(); // Ensure the video is reloaded
+        video.addEventListener('canplay', function handler() {
+          video.play().catch(() => console.log('Autoplay failed'));
+          video.removeEventListener('canplay', handler); // Only run once
+        });
+      }
+
+      const muteButton = document.getElementById('muteButton');
+      const muteIcon = document.getElementById('muteIcon');
+      const unmutePrompt = document.getElementById('unmutePrompt');
+      if (video) {
+        video.addEventListener('click', () => {
+          video.muted = !video.muted;
+          updateMuteUI(video.muted);
+        });
+      }
+      if (muteButton) {
+        muteButton.addEventListener('click', () => {
+          video.muted = !video.muted;
+          updateMuteUI(video.muted);
+        });
+      }
+      if (unmutePrompt) {
+        unmutePrompt.addEventListener('click', () => {
+          video.muted = false;
+          updateMuteUI(false);
+        });
+      }
+      function updateMuteUI(isMuted) {
+        if (muteIcon) {
+          muteIcon.className = isMuted ? 'fas fa-volume-mute text-red-600 text-[24px]' : 'fas fa-volume-up text-red-600 text-[24px]';
+          muteIcon.alt = isMuted ? 'Muted' : 'Unmuted';
+        }
+        if (!isMuted && unmutePrompt) {
+          unmutePrompt.style.display = 'none';
+        }
+      }
+      // Ensure About and Careers links in mobile menu are #010101 and bold on about.html
+      function setMobileMenuActiveLinks() {
+        const path = window.location.pathname.split("/").pop();
+        const mobileLinks = document.querySelectorAll('#mobile-menu a');
+        mobileLinks.forEach(link => {
+          const href = link.getAttribute('href')?.split('#')[0];
+          if ((href === 'about.html' && path === 'about.html') || (href === 'about.html#careers' && path === 'about.html')) {
+            link.style.color = '#010101';
+            link.style.fontWeight = '700';
+          }
+        });
+      }
+      setMobileMenuActiveLinks();
+      setTimeout(setMobileMenuActiveLinks, 100);
+      setTimeout(setMobileMenuActiveLinks, 500);
+    });
+});
+</script>
+
+<!-- Video Section -->
+<section>
+  <h1 class="text-[#010101] text-[48px] my-[32px] text-center font-[400] custom-font max-sm:text-[40px] max-sm:my-[28px] pt-[128px] max-md:pt-[96px]">About</h1>
+  <div class="relative w-full mx-auto overflow-hidden">
+    <video id="myVideo" src="videos/NorthCafe.mp4" autoplay muted playsinline loop class="w-full h-auto cursor-pointer">
+      Your browser does not support the video tag.
+    </video>
+    <div id="unmutePrompt" class="hidden absolute bottom-[80px] left-[32px] text-white bg-black bg-opacity-60 px-4 py-2 rounded-md text-sm max-md:left-[16px] max-md:bottom-[64px] cursor-pointer">
+      Tap to unmute
+    </div>
+    <button id="muteButton" class="absolute left-[32px] bottom-[32px] bg-none p-2 rounded-full max-lg:left-[16px] max-lg:bottom-[16px] max-md:w-[36px]">
+      <i id="muteIcon" class="fas fa-volume-mute text-red-600 text-[24px]" style="color: #dc2626;"></i>
+    </button>
+  </div>
+</section>
+
+<!-- Image Slideshow Section -->
+<section class="mx-[64px] pt-[32px] max-md:mx-[16px]">
+  <h2 class="mt-[88px] mb-[64px] font-[400] text-[48px] leading-[56px] text-center satisfy text-[#010101]  max-sm:leading-[44px] max-lg:mt-[44px] max-lg:mb-[52px] max-md:mt-[20px] max-md:mb-[32px] max-sm:text-[32px]">
+    The Story Behind Every Meal.
+  </h2>
+
+<div class="hidden lg:flex items-center justify-center gap-[24px] slider-gap-fix max-sm:gap-[16px] max-xl:mx-[48px] max-lg:mx-[24px] mx-[96px]">
+  <button id="prevBtn" class="w-[64px] h-[64px] max-xl:w-[48px] max-xl:h-[48px] max-lg:w-[36px] max-lg:h-[36px] max-md:w-[24px] max-md:h-[24px] flex items-center justify-center">
+  <i id="leftArrow" class="fas fa-chevron-left text-[48px] max-md:text-[36px] max-sm:text-[28px]"></i>
+  </button>
+  <img id="foodImage" src="/images/Frame52.png" alt="Food" class="mx-auto max-w-[900px] w-full h-auto object-cover rounded-md transition-all duration-300 max-xl:w-[720px]" />
+  <button id="nextBtn" class="w-[64px] h-[64px] max-xl:w-[48px] max-xl:h-[48px] max-lg:w-[36px] max-lg:h-[36px] max-md:w-[24px] max-md:h-[24px] flex items-center justify-center">
+  <i id="rightArrow" class="fas fa-chevron-right text-[48px] max-md:text-[36px] max-sm:text-[28px]"></i>
+  </button>
+</div>
+
+
+
+  <div class="flex flex-col items-center justify-center gap-[64px] max-lg:flex lg:hidden max-[425px]:gap-[12px]">
+    <img id="foodImageMobile" src="/images/Frame52.png" alt="Food" class="mx-auto w-full h-auto object-cover rounded-md transition-all duration-300 max-xl:w-[720px]" />
+    
+    <!-- Arrows with 64px gap -->
+    <div class="flex gap-[32px]">
+      <button id="prevBtnMobile">
+        <i id="leftArrowMobile" class="fas fa-chevron-left text-[48px] max-md:text-[36px] max-sm:text-[36px]"></i>
+      </button>
+      <button id="nextBtnMobile">
+        <i id="rightArrowMobile" class="fas fa-chevron-right text-[48px] max-md:text-[36px] max-sm:text-[36px]"></i>
+      </button>
+    </div>
+  </div>
+
+</section>
+
+<section class="mt-[88px] max-md:mt-[32px] max-sm:[28px] mb-[200px]" id="careers">
+  <h3 class="text-[#010101] text-[40px] text-center font-[400] custom-font max-md:text-[32px]">Think Big. Start at North Café.</h3>
+  <p class="custom-font text-[#4E4E4E] text-[18px] leading-[28px] text-center mt-[8px] max-xl:text-[16px] max-md:text-[14px]">Join the team at your go-to campus cafés. Apply now!</p>
+  <a href="#" class="block mx-auto px-[24px] py-[12px] text-[20px] w-fit text-white bg-[#B20201] font-[700] mt-[32px] max-xl:mt-[28px]">Send Resumé</a>
+  <p class="custom-font text-[#4E4E4E] text-[18px] leading-[28px] text-center mt-[32px] max-xl:mt-[28px]  max-xl:text-[16px] max-md:text-[14px]">Or send resumé to <strong>north.cafe@ng.com</strong></p>
+</section>
+
+<footer class="bg-[#F3F3F3]">
+  <div class="flex justify-between p-[64px] max-md:p-[32px] max-md:flex-col">
+    <nav>
+      <h2 class="custom-font font-[400] text-[#010101] text-[36px] leading-[44px] mb-[24px] max-md:text-[32px]">Think Big. Start at North Café.</h2>
+      <a href="" class="px-[24px] py-[12px] text-[16px] text-white bg-[#B20201] font-[700] w-fit">Send Resumé</a>
+    </nav>
+    <nav class="flex flex-col gap-[8px] max-md:mt-[28px]">
+      <h3 class="font-[600] text-[14px] leading-[22px] text-[#010101] custom-font uppercase ">COMPANY</h3>
+      <a href="index.html" class="font-[400] text-[14px] leading-[22px] text-[#4E4E4E] custom-font">Menu</a>
+      <a href="about.html" class="font-[400] text-[14px] leading-[22px] text-[#4E4E4E] custom-font">About</a>
+      <a href="" class="font-[700] text-[14px] leading-[22px] text-[#010101] custom-font">Careers</a>
+    </nav>
+    <nav class="flex flex-col gap-[8px] max-md:mt-[28px]">
+      <h3 class="font-[600] text-[14px] leading-[22px] text-[#010101] custom-font uppercase">SOCIALS</h3>
+      <a href="" class="font-[400] text-[14px] leading-[22px] text-[#4E4E4E] custom-font">LinkedIn</a>
+      <a href="" class="font-[400] text-[14px] leading-[22px] text-[#4E4E4E] custom-font">Youtube</a>
+      <a href="" class="font-[400] text-[14px] leading-[22px] text-[#4E4E4E] custom-font">Instagram</a>
+    </nav>
+  </div>
+  <div class="">
+    <p class="font-[400] text-[14px] leading-[22px] text-[#010101] custom-font p-[32px] text-center">© 2025 North Café. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="cart.js"></script>
+<script>
+  const video = document.getElementById('myVideo');
+  const muteButton = document.getElementById('muteButton');
+  const muteIcon = document.getElementById('muteIcon');
+  const unmutePrompt = document.getElementById('unmutePrompt');
+
+  const images = [
+    "/images/Image_fx (36).jpg",
+    "/images/Image_fx (37).jpg",
+    "/images/Image_fx (38).jpg",
+    "/images/Image_fx (39).jpg"
+  ];
+  const foodImage = document.getElementById("foodImage");
+  const foodImageMobile = document.getElementById("foodImageMobile");
+
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const prevBtnMobile = document.getElementById("prevBtnMobile");
+  const nextBtnMobile = document.getElementById("nextBtnMobile");
+
+  let currentIndex = 0;
+
+  document.addEventListener("DOMContentLoaded", () => {
+    if (unmutePrompt) {
+      unmutePrompt.style.display = 'block';
+      setTimeout(() => unmutePrompt.style.display = 'none', 5000);
+    }
+
+    const path = window.location.pathname.split("/").pop();
+    const navLinks = document.querySelectorAll('nav a[href]');
+    navLinks.forEach(link => {
+      const href = link.getAttribute("href").split("#")[0];
+      if (href === path) {
+        link.classList.add("active");
+      }
+    });
+
+    // --- Careers highlight on click or scroll ---
+    const careersLink = document.querySelector('nav a[href="#careers"]');
+    const careersSection = document.getElementById("careers");
+
+    if (careersLink && careersSection) {
+      // On click
+      careersLink.addEventListener("click", (e) => {
+        e.preventDefault();
+        careersSection.scrollIntoView({ behavior: "smooth" });
+      });
+
+      // On scroll
+      window.addEventListener("scroll", () => {
+        const rect = careersSection.getBoundingClientRect();
+        const isInView = rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
+        careersLink.style.color = isInView ? "#010101" : "#4e4e4e";
+      });
+    }
+
+    updateSlideshow();
+  });
+
+  function toggleMenu() {
+    const menu = document.getElementById("mobile-menu");
+    if (menu) menu.classList.toggle("hidden");
+  }
+
+  function updateSlideshow() {
+    if (foodImage) foodImage.src = images[currentIndex];
+    if (foodImageMobile) foodImageMobile.src = images[currentIndex];
+
+    const leftArrow = document.getElementById("leftArrow");
+    const leftArrowMobile = document.getElementById("leftArrowMobile");
+    const rightArrow = document.getElementById("rightArrow");
+    const rightArrowMobile = document.getElementById("rightArrowMobile");
+
+    if (leftArrow) leftArrow.style.color = currentIndex === 0 ? "#C4C4C4" : "#010101";
+    if (leftArrowMobile) leftArrowMobile.style.color = currentIndex === 0 ? "#C4C4C4" : "#010101";
+    if (rightArrow) rightArrow.style.color = currentIndex === images.length - 1 ? "#C4C4C4" : "#010101";
+    if (rightArrowMobile) rightArrowMobile.style.color = currentIndex === images.length - 1 ? "#C4C4C4" : "#010101";
+  }
+
+  function goToPrev() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateSlideshow();
+    }
+  }
+
+  function goToNext() {
+    if (currentIndex < images.length - 1) {
+      currentIndex++;
+      updateSlideshow();
+    }
+  }
+
+  prevBtn?.addEventListener("click", goToPrev);
+  nextBtn?.addEventListener("click", goToNext);
+  prevBtnMobile?.addEventListener("click", goToPrev);
+  nextBtnMobile?.addEventListener("click", goToNext);
+</script>
+
+</body>
+</html>
