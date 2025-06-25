@@ -54,25 +54,26 @@
     <section id="order-summary-section" class="w-full mt-0 mb-[200px]">
       <div class="max-w-[1200px] mx-auto">
         <!-- Order Total Summary -->
-        <div class="mt-[48px]">
+        <div class="mt-[48px] flex justify-between items-center">
           <h2 class="custom-font font-[700] text-[28px] leading-[36px] text-[#010101] mb-[24px]">Order Total:</h2>
-          <div class="flex flex-col gap-[24px] text-[22px] leading-[32px] custom-font text-[#4E4E4E] mb-[44px]">
-            <div class="flex justify-between">
-              <span>Item Total:</span>
-              <span id="order-item-total">₦40,000</span>
-            </div>
-            <div class="flex justify-between">
-              <span>Delivery Fee:</span>
-              <span id="order-delivery-fee">₦300</span>
-            </div>
-            <div class="flex justify-between">
-              <span>Service Charge:</span>
-              <span>₦300</span>
-            </div>
-            <div class="flex justify-between font-[700] text-[#010101]">
-              <span>Total:</span>
-              <span id="order-total">₦46,000</span>
-            </div>
+          <button id="clear-cart-btn" type="button" class="px-[24px] py-[12px] custom-font text-[20px] text-white bg-[#B20201] font-[700] w-fit">Clear Cart</button>
+        </div>
+        <div class="flex flex-col gap-[24px] text-[22px] leading-[32px] custom-font text-[#4E4E4E] mb-[44px]">
+          <div class="flex justify-between">
+            <span>Item Total:</span>
+            <span id="order-item-total">₦40,000</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Delivery Fee:</span>
+            <span id="order-delivery-fee">₦300</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Service Charge:</span>
+            <span>₦300</span>
+          </div>
+          <div class="flex justify-between font-[700] text-[#010101]">
+            <span>Total:</span>
+            <span id="order-total">₦46,000</span>
           </div>
         </div>
         <!-- Delivery Location & Gift -->
@@ -182,6 +183,16 @@
       </div>
     </div>
   </div>
+  <div id="clearCartModal" class="fixed inset-0 bg-black/60 z-50 opacity-0 pointer-events-none transition-opacity duration-200 flex items-center justify-center">
+    <div class="bg-white rounded-[12px] p-[32px] max-w-[400px] w-full mx-4 transform scale-95 transition-transform duration-200">
+      <h3 class="custom-font font-[600] text-[24px] text-[#010101] mb-[16px]">Clear Cart</h3>
+      <p class="custom-font text-[16px] text-[#4E4E4E] mb-[24px]">Are you sure you want to clear your entire cart?</p>
+      <div class="flex flex-col gap-[16px] items-center w-full">
+        <button onclick="closeClearCartModal()" class="w-full whitespace-nowrap px-[24px] py-[12px] custom-font text-[16px] text-[#4E4E4E] border border-[#D1D1D1] rounded-[900px] hover:bg-[#F3F3F3] transition-colors duration-200">Cancel</button>
+        <button onclick="confirmClearCart()" class="w-full whitespace-nowrap px-[24px] py-[12px] custom-font text-[16px] text-white bg-[#B20201] rounded-[900px] hover:bg-[#8B0101] transition-colors duration-200">Clear</button>
+      </div>
+    </div>
+  </div>
   <script src="header.js"></script>
   <script src="cart.js"></script>
   <script>
@@ -226,7 +237,10 @@
       // Enable scrolling when cart has items
       document.body.style.overflow = '';
       
-      let html = '<h2 class="custom-font font-[700] text-[28px] leading-[36px] text-[#010101] mb-[24px] text-left">Order Summary</h2>';
+      let html = '<div class="flex flex-row justify-between items-center mb-[32px] gap-4 max-md:flex-col max-md:items-stretch">';
+      html += '<h2 class="custom-font font-[700] text-[28px] leading-[36px] text-[#010101] text-left">Order Summary</h2>';
+      html += '<button id="clear-cart-btn" type="button" class="px-[24px] py-[12px] custom-font text-[20px] text-white bg-[#B20201] font-[700] w-fit max-md:w-full">Clear Cart</button>';
+      html += '</div>';
       let itemTotal = 0;
       cart.forEach((item, idx) => {
         const img = item.meal && (item.meal.image || item.meal.image_url) ? (item.meal.image || item.meal.image_url) : '/images/foodDefault.png';
@@ -773,6 +787,37 @@
       closeLogoutModal();
       handleLogout();
     }
+
+    // Clear Cart Modal Logic
+    function openClearCartModal() {
+      const modal = document.getElementById('clearCartModal');
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      modal.classList.add('opacity-100');
+      modal.style.pointerEvents = 'auto';
+    }
+    function closeClearCartModal() {
+      const modal = document.getElementById('clearCartModal');
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      modal.classList.remove('opacity-100');
+      modal.style.pointerEvents = 'none';
+    }
+    function confirmClearCart() {
+      localStorage.removeItem('cart');
+      closeClearCartModal();
+      window.location.reload();
+    }
+    // Attach event to button
+    document.addEventListener('DOMContentLoaded', function() {
+      const clearBtn = document.getElementById('clear-cart-btn');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+          const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+          if (cart.length > 0) {
+            openClearCartModal();
+          }
+        });
+      }
+    });
   </script>
 </body>
 </html>

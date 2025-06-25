@@ -1,183 +1,120 @@
-# Food Delivery App
+# North Café - Food Delivery App
 
-A modern React-based food delivery application that connects to your food delivery API. This application provides a complete user experience for browsing meals, managing cart, placing orders, and tracking order history.
+A modern, responsive food delivery application built with React, featuring user authentication, cart management, and a beautiful UI.
 
 ## Features
 
-- 🔐 **Authentication**: User registration and login with JWT tokens
-- 🍽️ **Menu Browsing**: Browse and search meals with category filtering
-- 🛒 **Shopping Cart**: Add, update, and remove items from cart
-- 📦 **Order Management**: Place orders with delivery options and gift details
-- 📋 **Order History**: View and track order status
-- 👤 **User Profile**: Manage account settings and preferences
-- 📱 **Responsive Design**: Works on desktop, tablet, and mobile devices
-- 🎨 **Modern UI**: Beautiful interface built with Tailwind CSS
+- 🍽️ **Menu Display** - Browse delicious meals with detailed descriptions
+- 🛒 **Shopping Cart** - Add items, manage quantities, and checkout
+- 👤 **User Authentication** - Sign up, login, and profile management
+- 📱 **Responsive Design** - Works perfectly on desktop, tablet, and mobile
+- 🎨 **Modern UI** - Beautiful design with Tailwind CSS
+- 🔒 **Protected Routes** - Secure checkout and profile pages
+- 📋 **Order Management** - Track your orders and history
 
 ## Tech Stack
 
-- **Frontend**: React 18
-- **Routing**: React Router DOM
-- **State Management**: React Context API
+- **Frontend**: React 18, React Router DOM
 - **Styling**: Tailwind CSS
+- **State Management**: React Context API
 - **HTTP Client**: Axios
-- **Icons**: Lucide React
-- **Notifications**: React Hot Toast
+- **Build Tool**: Create React App
+- **Deployment**: Vercel
 
-## Prerequisites
+## Getting Started
+
+### Prerequisites
 
 - Node.js (version 14 or higher)
-- npm or yarn package manager
+- npm or yarn
 
-## Installation
+### Installation
 
-1. **Clone or navigate to the project directory**
-   ```bash
-   cd "frontend copy"
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**
-   ```bash
-   npm start
-   ```
-
-4. **Open your browser**
-   Navigate to `http://localhost:3000` to view the application.
-
-## API Configuration
-
-The application is configured to connect to your food delivery API at:
-```
-https://backendtesting-production-dcfc.up.railway.app
+1. Clone the repository:
+```bash
+git clone https://github.com/teslimadekoya/complete_northcafe.git
+cd complete_northcafe
 ```
 
-### API Endpoints Used
-
-- **Authentication**: `/api/auth/login/`, `/api/auth/registration/`, `/api/auth/token/refresh/`
-- **Meals**: `/api/meals/`
-- **Delivery**: `/api/delivery-types/`, `/api/locations/`
-- **Cart**: `/api/cart/`
-- **Orders**: `/api/orders/`
-
-## Application Structure
-
-```
-src/
-├── components/          # Reusable UI components
-│   ├── Navbar.js       # Navigation bar
-│   └── ProtectedRoute.js # Route protection component
-├── context/            # React Context providers
-│   ├── AuthContext.js  # Authentication state management
-│   └── CartContext.js  # Shopping cart state management
-├── pages/              # Page components
-│   ├── Home.js         # Landing page
-│   ├── Login.js        # Login page
-│   ├── Register.js     # Registration page
-│   ├── Menu.js         # Menu browsing page
-│   ├── Cart.js         # Shopping cart page
-│   ├── Checkout.js     # Order checkout page
-│   ├── Orders.js       # Order history page
-│   └── Profile.js      # User profile page
-├── services/           # API service layer
-│   └── api.js          # API configuration and methods
-├── App.js              # Main application component
-├── index.js            # Application entry point
-└── index.css           # Global styles
+2. Install dependencies:
+```bash
+npm install
 ```
 
-## Key Features Explained
+3. Start the development server:
+```bash
+npm start
+```
 
-### Authentication
-- JWT token-based authentication
-- Automatic token refresh
-- Protected routes for authenticated users
-- Persistent login state
+4. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-### Shopping Cart
-- Real-time cart updates
-- Quantity management
-- Special instructions for meals
-- Cart persistence across sessions
+### Building for Production
 
-### Order Management
-- Multiple delivery options
-- Location-based delivery
-- Gift order support
-- Order tracking and history
-
-### User Experience
-- Responsive design for all devices
-- Loading states and error handling
-- Toast notifications for user feedback
-- Smooth navigation and transitions
-
-## Available Scripts
-
-- `npm start` - Start the development server
-- `npm build` - Build the application for production
-- `npm test` - Run tests
-- `npm eject` - Eject from Create React App (not recommended)
-
-## Environment Variables
-
-The application uses the following environment variables (if needed):
-
-```env
-REACT_APP_API_BASE_URL=https://backendtesting-production-dcfc.up.railway.app
+```bash
+npm run build
 ```
 
 ## Deployment
 
-To deploy the application:
+### Deploy to Vercel
 
-1. **Build the application**
-   ```bash
-   npm run build
-   ```
+1. **Connect to Vercel**:
+   - Go to [vercel.com](https://vercel.com)
+   - Sign up/Login with your GitHub account
+   - Click "New Project"
+   - Import your GitHub repository
 
-2. **Deploy the `build` folder** to your hosting service (Netlify, Vercel, AWS, etc.)
+2. **Configure Build Settings**:
+   - Framework Preset: `Create React App`
+   - Build Command: `npm run build`
+   - Output Directory: `build`
+   - Install Command: `npm install`
 
-## Troubleshooting
+3. **Environment Variables** (if needed):
+   - Add any environment variables in the Vercel dashboard
 
-### Common Issues
+4. **Deploy**:
+   - Click "Deploy"
+   - Vercel will automatically build and deploy your app
 
-1. **API Connection Issues**
-   - Ensure the API server is running
-   - Check CORS configuration on the backend
-   - Verify API endpoints are accessible
+### Manual Deployment
 
-2. **Authentication Issues**
-   - Clear browser localStorage
-   - Check token expiration
-   - Verify login credentials
+1. Build the project:
+```bash
+npm run build
+```
 
-3. **Styling Issues**
-   - Ensure Tailwind CSS is properly configured
-   - Check if all dependencies are installed
+2. The build folder is ready to be deployed to any static hosting service.
 
-### Development Tips
+## Project Structure
 
-- Use browser developer tools to debug API calls
-- Check the Network tab for failed requests
-- Use React Developer Tools for state debugging
-- Monitor console for error messages
+```
+├── components/          # Reusable React components
+├── pages/              # Page components
+├── context/            # React Context providers
+├── services/           # API services
+├── public/             # Static assets
+├── App.js              # Main App component
+├── index.js            # Entry point
+└── package.json        # Dependencies and scripts
+```
+
+## API Configuration
+
+The app is configured to work with a backend API. The API base URL is set in `services/api.js`. For production deployment, make sure to update the API endpoint if needed.
 
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is licensed under the MIT License.
 
 ## Support
 
-For support or questions, please contact the development team or create an issue in the repository. 
+For support, email support@northcafe.com or create an issue in this repository. 

@@ -273,14 +273,14 @@
       
       return `
       <div class="group flex flex-col items-center relative transition-all duration-200">
-        <div onclick="goToAddPage(${meal.id})" style="cursor:pointer; width:100%">
-          <img src="${imageUrl}" alt="${meal.name}" onerror="this.onerror=null; this.src='images/menu/foodHovered.png';" />
+        <div style="width:100%">
+          <img src="${imageUrl}" alt="${meal.name}" style="cursor:pointer;" onclick="goToAddPage(${meal.id}, event)" onerror="this.onerror=null; this.src='images/menu/foodHovered.png';" />
           <div class="flex flex-col items-center mt-8">
-            <p class="custom-font text-[22px] font-[700] text-center mb-[2px] text-[#010101]" style="cursor:pointer;" >${meal.name}</p>
-            <p class="text-[#4E4E4E] custom-font text-center" style="cursor:pointer;">₦${Number(meal.price).toLocaleString()}</p>
+            <p class="custom-font text-[22px] font-[700] text-center mb-[2px] text-[#010101]" style="cursor:pointer;" onclick="goToAddPage(${meal.id}, event)">${meal.name}</p>
+            <p class="text-[#4E4E4E] custom-font text-center" style="cursor:pointer;" onclick="goToAddPage(${meal.id}, event)">₦${Number(meal.price).toLocaleString()}</p>
           </div>
         </div>
-        <div class="add-to-cart flex items-center mt-2 cursor-pointer transition-all duration-200" onclick="goToAddPage(${meal.id})">
+        <div class="add-to-cart flex items-center mt-2 cursor-pointer transition-all duration-200" onclick="goToAddPage(${meal.id}, event)">
           <img src="images/add.svg" alt="Add to cart" class="add-to-cart-icon transition-all duration-200" />
           <span class="custom-font text-[18px] text-[#B20201] font-[400] ml-2 add-to-cart-text transition-all duration-200">Add to cart</span>
         </div>
@@ -311,7 +311,8 @@
     fetchMeals();
   });
 
-  function goToAddPage(mealId) {
+  function goToAddPage(mealId, event) {
+    if (event) event.stopPropagation();
     const meal = allMeals.find(m => m.id === mealId);
     if (meal) {
       localStorage.setItem('selectedMeal', JSON.stringify(meal));
